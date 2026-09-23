@@ -1,0 +1,8 @@
+=== AGENT BRAIN ===
+Goal: explain agent state
+Status: complete
+Remaining plan: []
+
+Observations:
+- executed:inspect goal: explain agent state
+- executed:process goal: explain agent state
