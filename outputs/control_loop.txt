@@ -1,0 +1,8 @@
+=== CONTROL LOOP ===
+Goal: explain agent state
+Status: complete
+Steps used: 2
+
+Observations:
+- executed:inspect goal: explain agent state
+- executed:process goal: explain agent state

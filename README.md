@@ -126,3 +126,127 @@ pytest tests/test_brain_contract.py -v > outputs/test_brain_contract.txt
 ### Task 1 Result
 
 The state/brain contract is successfully implemented. The brain accepts a valid state, updates it through controlled actions, records observations, and safely rejects invalid input.
+
+---
+
+## Task 2 — Control Loop
+
+### Objective
+
+This task implements the control loop of the agent.
+
+The control loop allows the brain to work through the plan one action at a time. After each action, the result is stored as an observation and the loop checks whether more work is remaining.
+
+The `AgentState` and `Brain` created in Task 1 are reused instead of creating them again.
+
+### Implementation
+
+The implementation is available in:
+
+```text
+control_loop/control_loop.py
+```
+
+Task 2 imports the existing components from Task 1:
+
+```python
+from brain_contract.brain_contract import AgentState, Brain
+```
+
+`ControlLoop` extends the existing `Brain`:
+
+```python
+class ControlLoop(Brain):
+```
+
+This allows the control loop to reuse state validation, plan creation, action execution, and the limits already defined by the brain.
+
+### Control Loop Flow
+
+```text
+Agent State
+    ↓
+Create Plan
+    ↓
+Take Next Action
+    ↓
+Execute Action
+    ↓
+Store Observation
+    ↓
+More Actions?
+   ↙       ↘
+ Yes       No
+  ↓         ↓
+Repeat    Complete
+```
+
+### Step Limit
+
+The loop keeps track of how many actions can be performed.
+
+If the allowed number of steps is reached before the plan is complete, execution stops with:
+
+```text
+status = "limit_reached"
+```
+
+This prevents the control loop from continuing without a limit.
+
+### Run
+
+Run the implementation from the project root:
+
+```bash
+python -m control_loop.control_loop
+```
+
+### Automated Tests
+
+The tests are available in:
+
+```text
+tests/test_control_loop.py
+```
+
+Run the tests using:
+
+```bash
+pytest tests/test_control_loop.py -v
+```
+
+The tests verify:
+
+- A valid plan completes successfully.
+- An empty goal is rejected.
+- The control loop stops when the step limit is reached.
+
+### Save Output
+
+Save the implementation output:
+
+```bash
+python -m control_loop.control_loop > outputs/control_loop.txt
+```
+
+Save the automated test output:
+
+```bash
+pytest tests/test_control_loop.py -v > outputs/test_control_loop.txt
+```
+
+### Guardrails
+
+The control loop uses the safety boundaries established by the brain, including:
+
+- Step limit to prevent unlimited execution.
+- Input validation to reject invalid states.
+- Timeout configuration for operations that may take too long.
+- Limited retries for temporary execution failures.
+- No API keys or credentials stored in the source code.
+
+The step-limit behavior is directly demonstrated in the automated tests.
+
+### Task 2 Result
+
+The control loop successfully reuses the Brain and AgentState from Task 1 and processes the plan one action at a time. Each completed action is recorded, and the loop stops when the plan is complete or when the allowed step limit is reached.
