@@ -524,3 +524,107 @@ This task directly demonstrates:
 ### Task 4 Result
 
 The agent handles failures within clear limits. Temporary failures can be retried, while repeated failures, excessive execution time, and excessive steps cause the brain to stop safely instead of continuing indefinitely.
+
+---
+
+## Task 5 — Architecture Review
+
+### Objective
+
+This task reviews the architecture created across the previous tasks.
+
+The purpose is to verify that important responsibilities such as validation, planning, action execution, decision tracing, and safety limits are clearly separated instead of being hidden inside one large function.
+
+### Implementation
+
+The implementation is available in:
+
+```text
+architecture_review/architecture_review.py
+```
+
+The complete architecture developed across the assessment is:
+
+```text
+Brain Contract
+      ↓
+Control Loop
+      ↓
+Decision Trace
+      ↓
+Bounded Failure
+      ↓
+Architecture Review
+```
+
+The architecture review checks that the brain provides:
+
+- State validation
+- Separate planning
+- Separate action execution
+- Decision tracing
+- Step, timeout, and retry limits
+
+Each check produces a structured PASS or FAIL result.
+
+
+### Failure Case
+
+The automated tests also review an intentionally incomplete brain.
+
+Because the incomplete version does not contain validation, planning, action execution, or decision tracing, the architecture review returns failed checks.
+
+This demonstrates that the reviewer can identify missing parts instead of always returning PASS.
+
+### Run
+
+Run the implementation from the project root:
+
+```bash
+python -m architecture_review.architecture_review
+```
+
+### Automated Tests
+
+Tests are available in:
+
+```text
+tests/test_architecture_review.py
+```
+
+Run:
+
+```bash
+pytest tests/test_architecture_review.py -v
+```
+
+The tests verify:
+
+- The complete architecture passes all checks.
+- An incomplete architecture fails the expected checks.
+
+### Save Output
+
+Save the implementation output:
+
+```bash
+python -m architecture_review.architecture_review > outputs/architecture_review.txt
+```
+
+Save the automated test output:
+
+```bash
+pytest tests/test_architecture_review.py -v > outputs/test_architecture_review.txt
+```
+
+### Architecture Result
+
+The final implementation keeps the main responsibilities separated and reviewable.
+
+The Brain manages the basic state contract, the control loop manages repeated execution, the decision trace records decisions, and bounded failure keeps execution within defined limits.
+
+Because these responsibilities are separated, individual parts can be tested or changed without placing all agent behavior inside one large function.
+
+### Task 5 Result
+
+The architecture review successfully checks the important parts of the agent and produces clear PASS or FAIL results. The completed implementation demonstrates a simple agent brain built from ordinary, testable Python components.

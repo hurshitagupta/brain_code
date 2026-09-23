@@ -1,0 +1,8 @@
+=== ARCHITECTURE REVIEW ===
+PASS | state validation | Brain has a separate state validation method.
+PASS | planning | Planning is kept behind a separate method.
+PASS | action execution | Action execution is kept behind a separate method.
+PASS | decision trace | Brain keeps a reviewable decision trace.
+PASS | safety limits | Step, timeout, and retry limits are configured.
+
+Overall: PASS

@@ -1,0 +1,11 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Hurshita Gupta\OneDrive\Desktop\brain_code\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Hurshita Gupta\OneDrive\Desktop\brain_code
+configfile: pyproject.toml
+collecting ... collected 2 items
+
+tests/test_architecture_review.py::test_complete_architecture_passes PASSED [ 50%]
+tests/test_architecture_review.py::test_incomplete_architecture_fails PASSED [100%]
+
+============================== 2 passed in 0.07s ==============================
