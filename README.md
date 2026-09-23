@@ -628,3 +628,115 @@ Because these responsibilities are separated, individual parts can be tested or 
 ### Task 5 Result
 
 The architecture review successfully checks the important parts of the agent and produces clear PASS or FAIL results. The completed implementation demonstrates a simple agent brain built from ordinary, testable Python components.
+---
+
+## Project Setup
+
+### Requirements
+
+- Python 3.11+
+- pytest
+
+Create and activate a virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+On Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+Install the required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Project Architecture
+
+The project is divided into separate modules, with each task building on the previous implementation.
+
+```text
+brain_contract/
+        ↓
+control_loop/
+        ↓
+decision_trace/
+        ↓
+bounded_failure/
+        ↓
+architecture_review/
+```
+
+### Module Responsibilities
+
+- **Brain Contract** — Defines the agent state and the basic Brain behavior.
+- **Control Loop** — Processes the plan one action at a time.
+- **Decision Trace** — Records the actions selected by the brain and the reasons for its decisions.
+- **Bounded Failure** — Adds controlled retry, timeout, and step-limit behavior.
+- **Architecture Review** — Checks that the important parts of the architecture are present and separated.
+
+---
+
+## Run All Tests
+
+Run the complete automated test suite from the project root:
+
+```bash
+pytest tests/ -v
+```
+
+To save the complete test output:
+
+```bash
+pytest tests/ -v > outputs/test_all.txt
+```
+
+---
+
+## Output Evidence
+
+Execution and test evidence is stored in the `outputs/` directory.
+
+```text
+outputs/
+├── brain_contract.txt
+├── test_brain_contract.txt
+├── control_loop.txt
+├── test_control_loop.txt
+├── decision_trace.txt
+├── test_decision_trace.txt
+├── bounded_failure.txt
+├── test_bounded_failure.txt
+├── architecture_review.txt
+├── test_architecture_review.txt
+└── test_all.txt
+```
+
+---
+
+## Guardrails
+
+The project includes the required execution boundaries:
+
+- **Step limit** — prevents the control loop from running indefinitely.
+- **Timeout** — stops the brain when the allowed execution time is exceeded.
+- **Retry limit** — retries only the defined temporary failure and limits the number of retries.
+- **Validation** — rejects invalid state and empty goals.
+- **Secret hygiene** — no API keys or credentials are required or stored in the source code.
+
+The bounded-failure tests demonstrate step-limit, timeout, and retry behavior.
+
+---
+
+## Reflection 
+
+This implementation focuses on the architecture of an agent brain rather than using an AI model or agent framework.
+The main learning from the assessment is that an agent brain can be implemented as normal software with clear state, decisions, execution steps, and stopping conditions.
+
+
