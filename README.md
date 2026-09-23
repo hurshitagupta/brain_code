@@ -250,3 +250,135 @@ The step-limit behavior is directly demonstrated in the automated tests.
 ### Task 2 Result
 
 The control loop successfully reuses the Brain and AgentState from Task 1 and processes the plan one action at a time. Each completed action is recorded, and the loop stops when the plan is complete or when the allowed step limit is reached.
+
+---
+
+## Task 3 — Decision Trace
+
+### Objective
+
+This task adds a decision trace to the agent.
+
+The decision trace records what action the brain selected at each step and why it selected or stopped that action. This makes the execution easier to follow and review.
+
+The implementation reuses the `AgentState` from Task 1 and the `ControlLoop` from Task 2.
+
+### Implementation
+
+The implementation is available in:
+
+```text
+decision_trace/decision_trace.py
+```
+
+Task 3 builds on the previous tasks:
+
+```text
+Brain
+  ↓
+Control Loop
+  ↓
+Decision Trace
+```
+
+Each decision stores:
+
+- Step number
+- Selected action
+- Reason for the decision
+
+For example:
+
+```text
+Step 1
+Action: inspect goal: explain agent state
+Reason: next action in the plan
+```
+
+The decision to stop is also recorded.
+
+### Decision Flow
+
+```text
+Check Plan
+    ↓
+Select Action
+    ↓
+Record Decision
+    ↓
+Execute Action
+    ↓
+Store Observation
+    ↓
+Continue or Stop
+```
+
+This makes it possible to follow the decisions made during execution instead of only seeing the final result.
+
+### Run
+
+Run the implementation from the project root:
+
+```bash
+python -m decision_trace.decision_trace
+```
+
+### Automated Tests
+
+Tests are available in:
+
+```text
+tests/test_decision_trace.py
+```
+
+Run:
+
+```bash
+pytest tests/test_decision_trace.py -v
+```
+
+The tests verify:
+
+- Decisions are recorded during successful execution.
+- An empty goal is rejected.
+- The reason for stopping at the step limit is recorded.
+
+### Save Output
+
+Save the implementation output:
+
+```bash
+python -m decision_trace.decision_trace > outputs/decision_trace.txt
+```
+
+Save the automated test output:
+
+```bash
+pytest tests/test_decision_trace.py -v > outputs/test_decision_trace.txt
+```
+
+Generated output files:
+
+```text
+outputs/decision_trace.txt
+outputs/test_decision_trace.txt
+```
+
+### Guardrails
+
+This task continues to use the safety boundaries established in the previous tasks.
+
+The decision trace also makes these boundaries easier to review because the reason for stopping is recorded.
+
+For example:
+
+```text
+Action: stop
+Reason: step limit reached
+```
+
+Input validation continues to reject invalid states, and no credentials or secrets are stored in the source code.
+
+### Task 3 Result
+
+The agent now keeps a clear record of its decisions. Each selected action and the reason for stopping can be followed through the decision trace, making the brain's execution easier to understand and review.

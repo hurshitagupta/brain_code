@@ -1,0 +1,12 @@
+=== DECISION TRACE ===
+Goal: explain agent state
+Status: complete
+
+Decisions:
+Step 1 | Action: inspect goal: explain agent state | Reason: next action in the plan
+Step 2 | Action: process goal: explain agent state | Reason: next action in the plan
+Step 2 | Action: stop | Reason: plan completed
+
+Observations:
+- executed:inspect goal: explain agent state
+- executed:process goal: explain agent state
