@@ -382,3 +382,145 @@ Input validation continues to reject invalid states, and no credentials or secre
 ### Task 3 Result
 
 The agent now keeps a clear record of its decisions. Each selected action and the reason for stopping can be followed through the decision trace, making the brain's execution easier to understand and review.
+
+---
+
+## Task 4 — Bounded Failure
+
+### Objective
+
+This task ensures that failures cannot make the agent run forever.
+
+The implementation reuses the Brain, control loop, and decision trace from the previous tasks and adds controlled handling for retries, timeouts, and step limits.
+
+### Implementation
+
+The implementation is available in:
+
+```text
+bounded_failure/bounded_failure.py
+```
+
+Task 4 builds on the previous architecture:
+
+```text
+Brain
+  ↓
+Control Loop
+  ↓
+Decision Trace
+  ↓
+Bounded Failure
+```
+
+### Temporary Failure and Retry
+
+A `TemporaryFailure` represents an error that may succeed if attempted again.
+
+Only this type of failure is retried.
+
+Retries are limited using `max_retries`. If the action continues to fail after the allowed retries, execution stops with:
+
+```text
+status = "failed"
+```
+
+The decision trace records the retry and the reason for stopping.
+
+### Timeout
+
+The brain keeps track of how much time the execution has used.
+
+If the configured timeout is exceeded, execution stops with:
+
+```text
+status = "timeout"
+```
+
+### Step Limit
+
+The existing step limit is also enforced.
+
+If the maximum number of steps is reached before the plan is complete:
+
+```text
+status = "limit_reached"
+```
+
+### Failure Flow
+
+```text
+Execute Action
+      ↓
+   Failure?
+   ↙     ↘
+ No      Yes
+ ↓        ↓
+Continue  Temporary?
+          ↓
+         Yes
+          ↓
+     Retry Allowed?
+       ↙       ↘
+     Yes        No
+      ↓          ↓
+    Retry       Stop
+```
+
+### Run
+
+Run the implementation from the project root:
+
+```bash
+python -m bounded_failure.bounded_failure
+```
+
+### Automated Tests
+
+Tests are available in:
+
+```text
+tests/test_bounded_failure.py
+```
+
+Run:
+
+```bash
+pytest tests/test_bounded_failure.py -v
+```
+
+The tests verify:
+
+- Normal execution completes successfully.
+- A temporary failure is retried.
+- Execution stops when the retry limit is reached.
+- Execution stops when the timeout is reached.
+- Execution stops when the step limit is reached.
+
+### Save Output
+
+Save the implementation output:
+
+```bash
+python -m bounded_failure.bounded_failure > outputs/bounded_failure.txt
+```
+
+Save the automated test output:
+
+```bash
+pytest tests/test_bounded_failure.py -v > outputs/test_bounded_failure.txt
+```
+
+### Guardrails
+
+This task directly demonstrates:
+
+- **Step limit:** Prevents unlimited control-loop execution.
+- **Timeout:** Stops execution when the allowed time is exceeded.
+- **Retry limit:** Only temporary failures are retried and retries are capped.
+- **Validation:** Invalid states continue to be rejected by the Brain.
+- **Secret hygiene:** No credentials or API keys are stored in source code.
+
+### Task 4 Result
+
+The agent handles failures within clear limits. Temporary failures can be retried, while repeated failures, excessive execution time, and excessive steps cause the brain to stop safely instead of continuing indefinitely.

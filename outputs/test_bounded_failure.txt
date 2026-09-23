@@ -1,0 +1,14 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Hurshita Gupta\OneDrive\Desktop\brain_code\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Hurshita Gupta\OneDrive\Desktop\brain_code
+configfile: pyproject.toml
+collecting ... collected 5 items
+
+tests/test_bounded_failure.py::test_bounded_failure_happy_path PASSED    [ 20%]
+tests/test_bounded_failure.py::test_temporary_failure_retries_then_succeeds PASSED [ 40%]
+tests/test_bounded_failure.py::test_retry_limit_stops_failure PASSED     [ 60%]
+tests/test_bounded_failure.py::test_timeout_stops_execution PASSED       [ 80%]
+tests/test_bounded_failure.py::test_step_limit_stops_execution PASSED    [100%]
+
+============================== 5 passed in 0.06s ==============================
